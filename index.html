@@ -80,7 +80,7 @@ p{margin:0}
 /* Hero */
 .hero{padding-block:calc(130px + env(safe-area-inset-top,0px)) 80px;position:relative}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,80px);align-items:end}
-.hero h1{font-size:clamp(52px,8.6vw,132px);margin-block:22px 30px}
+.hero h1{font-size:clamp(40px,5.6vw,88px);margin-block:22px 28px}
 .hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
 .hero h1 .ln>span{display:inline-block}
 .hero h1 em{font-style:normal;color:var(--blue)}
@@ -211,7 +211,8 @@ footer{background:var(--ink);color:var(--on-ink-muted);padding-block:80px calc(4
 .foot-top a:hover{color:var(--white)}
 .foot-brand p{max-width:32ch;margin-top:20px}
 .foot-brand .logo img{height:46px;width:auto;filter:brightness(0) invert(1)}
-.foot-word{font-family:var(--display);font-weight:800;font-size:clamp(64px,15vw,230px);letter-spacing:-.05em;line-height:.8;color:var(--ink-2);margin-top:50px;white-space:nowrap;overflow:hidden;-webkit-text-stroke:1px rgba(214,231,250,.14)}
+.foot-word{margin-top:50px;padding-block:.05em .12em;overflow:visible}
+.foot-word span{display:inline-block;font-family:var(--display);font-weight:800;font-size:11vw;letter-spacing:-.04em;line-height:1;color:var(--ink-2);white-space:nowrap;-webkit-text-stroke:1px rgba(214,231,250,.14)}
 .foot-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:28px;font-family:var(--mono);font-size:12px}
 
 /* Responsive */
@@ -468,7 +469,7 @@ footer{background:var(--ink);color:var(--on-ink-muted);padding-block:80px calc(4
       <div><h4>Programme</h4><ul><li><a href="#award">Get Off The Tools</a></li><li><a href="https://tidycal.com/amrat/business-possibilities-review-40-minute-meeting" target="_blank" rel="noopener">Free review</a></li><li><a href="https://atp-accountants.co.uk/request-a-call-back" target="_blank" rel="noopener">Call back</a></li></ul></div>
       <div><h4>Contact</h4><ul><li>01494 727 650</li><li>amrat@atp-accountants.co.uk</li><li>Amersham, Buckinghamshire</li></ul></div>
     </div>
-    <div class="foot-word" aria-hidden="true">Get off the tools.</div>
+    <div class="foot-word" id="footWord" aria-hidden="true"><span>Get off the tools.</span></div>
     <div class="foot-bot"><span>© 2026 ATP Accountants · Registered in England · Company No. 13076646</span><span><a href="https://atp-accountants.co.uk/privacy-policy" target="_blank" rel="noopener">Privacy</a> · <a href="https://atp-accountants.co.uk/services-1" target="_blank" rel="noopener">Terms</a></span></div>
   </div>
 </footer>
@@ -500,6 +501,19 @@ footer{background:var(--ink);color:var(--on-ink-muted);padding-block:80px calc(4
   // Nav state
   var nav=document.getElementById('nav'),lastY=0;
   window.addEventListener('scroll',function(){var y=window.scrollY;nav.classList.toggle('scrolled',y>20);nav.classList.toggle('hide',y>lastY&&y>400&&!drawer.classList.contains('open'));lastY=y},{passive:true});
+
+  // Fit footer watermark to the content width exactly
+  var fw=document.getElementById('footWord'),fs=fw&&fw.firstElementChild;
+  function fitWord(){
+    if(!fs)return;
+    fs.style.fontSize='100px';
+    var w=fs.getBoundingClientRect().width,avail=fw.clientWidth;
+    if(w>0)fs.style.fontSize=(100*avail/w*0.995)+'px';
+  }
+  fitWord();
+  window.addEventListener('resize',fitWord);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitWord);
+  window.addEventListener('load',fitWord);
 
   if(!window.gsap||!window.ScrollTrigger)return;
   gsap.registerPlugin(ScrollTrigger);
@@ -570,7 +584,7 @@ footer{background:var(--ink);color:var(--on-ink-muted);padding-block:80px calc(4
 
   // Offer card scale-up
   gsap.from('#offer',{scale:.92,borderRadius:'64px',ease:'none',scrollTrigger:{trigger:'#offer',start:'top bottom',end:'top 45%',scrub:true}});
-  gsap.from('.foot-word',{xPercent:-8,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
+  gsap.from('#footWord span',{y:60,opacity:0,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
 
   window.addEventListener('load',function(){ScrollTrigger.refresh()});
 })();
