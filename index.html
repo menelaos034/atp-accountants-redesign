@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATP Accountants Homepage</title>
+<meta name="description" content="ATP Accountants, Amersham. Award-winning accountants and business advisors helping owners get off the tools and fall back in love with their business.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: editorial split hero → word-fill statement → pinned horizontal roadmap → dark award band → ledger comparison → founder → offer. Single deliberate light look with navy bands. */
+:root{
+  --ink:#0b1b2e;        /* deep navy, blue-biased */
+  --ink-2:#13283f;
+  --paper:#f4f7fb;      /* cool off-white */
+  --white:#ffffff;
+  --blue:#0368cd;       /* logo blue */
+  --blue-deep:#024f9c;
+  --sky:#d6e7fa;
+  --line:#d7e0ec;
+  --muted:#56677d;
+  --on-ink:#e9f1fb;
+  --on-ink-muted:#9fb3cb;
+  --gold:#f0b43c;       /* award only */
+  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --gut:clamp(16px,4vw,56px);
+  --maxw:1320px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.98;letter-spacing:-.03em;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);display:inline-flex;align-items:center;gap:10px}
+.label::before{content:"";width:22px;height:1px;background:currentColor}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;font:600 16px/1 var(--body);text-decoration:none;padding:18px 26px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:background .3s,color .3s,border-color .3s;position:relative;overflow:hidden;isolation:isolate}
+.btn .arr{display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.btn:hover .arr{transform:translateX(5px) rotate(-45deg)}
+.btn-primary{background:var(--blue);color:var(--white)}
+.btn-primary:hover{background:var(--blue-deep)}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-light{background:var(--white);color:var(--ink)}
+.btn-light:hover{background:var(--sky)}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .4s,box-shadow .4s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.nav.scrolled{background:rgba(244,247,251,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav.hide{transform:translateY(-100%)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:24px;height:82px}
+.logo{display:block;line-height:0}
+.logo img{height:40px;width:auto}
+.nav-links{display:flex;gap:30px;list-style:none;margin:0;padding:0}
+.nav-links a{text-decoration:none;font-weight:500;font-size:15px;position:relative;padding-block:6px}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:100%;background:var(--blue);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{display:flex;align-items:center;gap:18px}
+.nav-phone{font-family:var(--mono);font-size:14px;text-decoration:none;font-variant-numeric:tabular-nums}
+.nav .btn{padding:13px 20px;font-size:15px}
+.burger{display:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--white);cursor:pointer;position:relative}
+.burger span{position:absolute;left:14px;right:14px;height:1.5px;background:var(--ink);transition:transform .35s,top .35s}
+.burger span:nth-child(1){top:19px}.burger span:nth-child(2){top:26px}
+.burger[aria-expanded="true"] span:nth-child(1){top:22px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){top:22px;transform:rotate(-45deg)}
+.drawer{position:fixed;inset:0;z-index:45;background:var(--ink);color:var(--on-ink);padding:calc(110px + env(safe-area-inset-top,0px)) var(--gut) 40px;display:flex;flex-direction:column;gap:8px;clip-path:inset(0 0 100% 0);transition:clip-path .6s cubic-bezier(.7,0,.2,1);visibility:hidden}
+.drawer.open{clip-path:inset(0 0 0 0);visibility:visible}
+.drawer a{font-family:var(--display);font-weight:600;font-size:clamp(34px,9vw,54px);text-decoration:none;letter-spacing:-.02em;line-height:1.15}
+.drawer .drawer-foot{margin-top:auto;font-family:var(--mono);font-size:14px;color:var(--on-ink-muted);display:grid;gap:6px}
+
+/* Hero */
+.hero{padding-block:calc(130px + env(safe-area-inset-top,0px)) 80px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,80px);align-items:end}
+.hero h1{font-size:clamp(52px,8.6vw,132px);margin-block:22px 30px}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln>span{display:inline-block}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero-lede{font-size:clamp(18px,1.5vw,21px);max-width:34ch;color:var(--muted)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero-media{position:relative;min-width:0}
+.hero-img{border-radius:22px;overflow:hidden;aspect-ratio:4/5;max-width:100%;position:relative}
+.hero-img img{width:100%;height:118%;object-fit:cover;object-position:60% 50%}
+.badge{position:absolute;left:-28px;bottom:36px;background:var(--ink);color:var(--on-ink);border-radius:18px;padding:18px 20px;display:flex;gap:14px;align-items:center;max-width:290px;box-shadow:0 20px 50px -20px rgba(11,27,46,.6)}
+.badge .star{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-size:20px}
+.badge b{display:block;font-family:var(--display);font-size:17px;line-height:1.15}
+.badge small{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-ink-muted)}
+.hero-sym{display:flex;flex-wrap:wrap;gap:10px;margin-top:56px;padding-top:26px;border-top:1px solid var(--line)}
+.hero-sym span{font-size:14px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--white)}
+.hero-sym .q{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:0;background:none;padding-left:0;color:var(--muted)}
+
+/* Marquee */
+.marquee{background:var(--blue);color:var(--white);overflow:hidden;padding-block:22px;transform:rotate(-1.4deg) scale(1.03);margin-block:30px}
+.mq-track{display:flex;width:max-content}
+.mq-item{font-family:var(--display);font-weight:600;font-size:clamp(28px,4vw,54px);white-space:nowrap;padding-right:48px;display:flex;align-items:center;gap:48px;letter-spacing:-.02em}
+.mq-item i{font-style:normal;opacity:.5;font-size:.6em}
+
+/* Statement */
+.statement{padding-block:clamp(90px,14vw,190px)}
+.statement .label{margin-bottom:34px}
+.fill{font-family:var(--display);font-weight:600;font-size:clamp(32px,4.7vw,72px);line-height:1.08;letter-spacing:-.025em;max-width:22ch;text-wrap:balance}
+.fill .w{display:inline-block}
+.fill .hl{color:var(--blue)}
+.statement-sub{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:clamp(56px,7vw,100px);padding-top:32px;border-top:1px solid var(--line)}
+.statement-sub p{color:var(--muted);font-size:16px}
+.statement-sub b{display:block;font-family:var(--display);color:var(--ink);font-size:20px;margin-bottom:8px;letter-spacing:-.01em}
+
+/* Horizontal roadmap */
+.road{background:var(--ink);color:var(--on-ink);position:relative;overflow:hidden}
+.road-bg{position:absolute;inset:0;opacity:.28}
+.road-bg img{width:120%;max-width:none;height:100%;object-fit:cover;filter:grayscale(.2) saturate(.7)}
+.road-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ink) 0%,rgba(11,27,46,.55) 45%,rgba(11,27,46,.85) 100%)}
+.road-track{position:relative;display:flex;min-height:100vh;align-items:stretch}
+.panel{flex:0 0 auto;width:min(46vw,640px);padding:clamp(100px,14vh,160px) var(--gut) 80px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.panel-intro{width:min(60vw,820px)}
+.panel-intro h2{font-size:clamp(46px,6.4vw,104px);margin-block:24px 26px}
+.panel-intro h2 span{color:var(--sky);opacity:.55}
+.panel-intro p{max-width:40ch;color:var(--on-ink-muted);font-size:18px}
+.panel-intro .label{color:var(--sky)}
+.step{border-left:1px solid rgba(214,231,250,.18)}
+.step .num{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--sky);display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.step .num::after{content:"";height:1px;flex:1;background:rgba(214,231,250,.25)}
+.step h3{font-size:clamp(34px,3.6vw,56px);margin-bottom:22px}
+.step p{color:var(--on-ink-muted);max-width:36ch}
+.step .ico{width:74px;height:74px;border-radius:50%;border:1px solid rgba(214,231,250,.35);display:grid;place-items:center;margin-bottom:34px}
+.step .ico svg{width:30px;height:30px;stroke:var(--sky);fill:none;stroke-width:1.5}
+.panel-end{width:min(40vw,560px);justify-content:center}
+.panel-end p{font-family:var(--display);font-size:clamp(28px,2.8vw,42px);line-height:1.1;letter-spacing:-.02em;margin-bottom:30px}
+.progress{position:absolute;left:var(--gut);right:var(--gut);bottom:40px;height:2px;background:rgba(214,231,250,.15);z-index:2}
+.progress i{position:absolute;inset:0;background:var(--sky);transform:scaleX(0);transform-origin:left}
+
+/* Award */
+.award{padding-block:clamp(90px,12vw,170px)}
+.award-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(30px,6vw,90px);align-items:center}
+.award-img{border-radius:22px;overflow:hidden;aspect-ratio:1/1.05;max-width:100%;position:relative}
+.award-img img{width:100%;height:100%;object-fit:cover}
+.award-img .seal{position:absolute;top:22px;right:22px;width:128px;height:128px}
+.seal text{font-family:var(--mono);font-size:10.5px;letter-spacing:2.6px;fill:var(--ink);text-transform:uppercase}
+.award h2{font-size:clamp(56px,9vw,150px);margin-block:18px 26px}
+.award h2 .dot{color:var(--gold)}
+.award blockquote{margin:0 0 32px;font-size:clamp(19px,1.6vw,23px);line-height:1.45;max-width:36ch;padding-left:22px;border-left:2px solid var(--gold)}
+.award blockquote cite{display:block;margin-top:14px;font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.award-meta{display:flex;flex-wrap:wrap;gap:12px 28px;margin-bottom:36px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.award-meta b{color:var(--ink);font-weight:500}
+
+/* Ledger comparison */
+.ledger{padding-block:clamp(40px,6vw,80px) clamp(90px,12vw,160px)}
+.ledger-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:48px}
+.ledger-head h2{font-size:clamp(40px,5.2vw,80px);max-width:14ch}
+.ledger-head p{max-width:38ch;color:var(--muted)}
+.table-wrap{overflow-x:auto;border-radius:20px;background:var(--white);border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th,td{text-align:left;padding:22px 28px;vertical-align:top;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+thead th{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+thead th.us{color:var(--white);background:var(--blue)}
+td:first-child{font-family:var(--mono);font-size:13px;color:var(--muted);width:22%;letter-spacing:.02em}
+td.them{color:var(--muted);width:36%}
+td.us{font-weight:500;width:42%;background:rgba(3,104,205,.04)}
+td.us::before{content:"✓";color:var(--blue);font-weight:700;margin-right:10px}
+td.them::before{content:"–";margin-right:10px}
+
+/* Founder */
+.founder{background:var(--white);border-block:1px solid var(--line);padding-block:clamp(90px,12vw,160px)}
+.founder-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,6vw,96px);align-items:center}
+.portrait{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/5;max-width:100%;background:var(--ink)}
+.portrait img{width:100%;height:115%;object-fit:cover;opacity:.55}
+.portrait .mono{position:absolute;inset:auto 24px 24px 24px;color:var(--on-ink)}
+.portrait .mono b{font-family:var(--display);font-size:clamp(90px,11vw,170px);line-height:.8;display:block;letter-spacing:-.05em}
+.portrait .mono small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--on-ink-muted)}
+.founder h2{font-size:clamp(46px,6vw,92px);margin-block:18px 26px}
+.founder p.big{font-size:clamp(19px,1.6vw,22px);max-width:40ch;margin-bottom:40px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:40px}
+.stat{padding-top:18px;border-top:1px solid var(--line)}
+.stat b{display:block;font-family:var(--display);font-size:clamp(40px,4.4vw,64px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;color:var(--muted);display:block;margin-top:8px}
+
+/* Offer */
+.offer{padding-block:clamp(70px,10vw,140px)}
+.offer-card{background:var(--blue);color:var(--white);border-radius:32px;padding:clamp(34px,6vw,90px);position:relative;overflow:hidden;display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(30px,5vw,70px);align-items:end}
+.offer-card::before{content:"";position:absolute;width:720px;height:720px;border-radius:50%;border:1px solid rgba(255,255,255,.18);right:-260px;top:-300px}
+.offer-card::after{content:"";position:absolute;width:480px;height:480px;border-radius:50%;border:1px solid rgba(255,255,255,.14);right:-140px;top:-180px}
+.offer-card>*{position:relative;z-index:1;min-width:0}
+.offer .label{color:var(--white)}
+.offer h2{font-size:clamp(46px,6.8vw,112px);margin-block:20px 28px}
+.offer ul{list-style:none;margin:0 0 36px;padding:0;display:grid;gap:14px}
+.offer li{display:flex;gap:14px;align-items:flex-start;font-size:18px}
+.offer li::before{content:"";flex:0 0 22px;height:22px;border-radius:50%;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%230368cd' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;margin-top:3px}
+.contact-box{background:var(--ink);border-radius:22px;padding:28px;display:grid;gap:18px}
+.contact-box .row{display:grid;gap:4px}
+.contact-box small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--on-ink-muted)}
+.contact-box .val{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.contact-box a,.contact-box span.v{font-family:var(--display);font-size:clamp(20px,2vw,26px);text-decoration:none;color:var(--white);word-break:break-word;min-width:0}
+.copy{font:500 12px var(--mono);background:transparent;color:var(--sky);border:1px solid rgba(214,231,250,.3);border-radius:999px;padding:6px 12px;cursor:pointer}
+.copy:hover{border-color:var(--sky)}
+
+/* Footer */
+footer{background:var(--ink);color:var(--on-ink-muted);padding-block:80px calc(40px + env(safe-area-inset-bottom,0px));font-size:15px}
+.foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:60px;border-bottom:1px solid rgba(214,231,250,.12)}
+.foot-top h4{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink);margin:0 0 18px;font-weight:500}
+.foot-top ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.foot-top a{text-decoration:none}
+.foot-top a:hover{color:var(--white)}
+.foot-brand p{max-width:32ch;margin-top:20px}
+.foot-brand .logo img{height:46px;width:auto;filter:brightness(0) invert(1)}
+.foot-word{font-family:var(--display);font-weight:800;font-size:clamp(64px,15vw,230px);letter-spacing:-.05em;line-height:.8;color:var(--ink-2);margin-top:50px;white-space:nowrap;overflow:hidden;-webkit-text-stroke:1px rgba(214,231,250,.14)}
+.foot-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:28px;font-family:var(--mono);font-size:12px}
+
+/* Responsive */
+@media (max-width:1020px){
+  .nav-links,.nav-phone{display:none}
+  .burger{display:block}
+  .hero-grid,.award-grid,.founder-grid,.offer-card{grid-template-columns:1fr}
+  .hero-img{aspect-ratio:4/3}
+  .badge{left:16px;bottom:16px}
+  .foot-top{grid-template-columns:1fr 1fr}
+  .award-img{aspect-ratio:4/3}
+  .portrait{aspect-ratio:4/3}
+}
+@media (max-width:900px){
+  .road-track{flex-direction:column;min-height:0}
+  .panel,.panel-intro,.panel-end{width:100%;padding-block:56px}
+  .panel-intro{padding-top:100px}
+  .step{border-left:0;border-top:1px solid rgba(214,231,250,.18)}
+  .progress{display:none}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .nav-in{height:70px}
+  .logo img{height:32px}
+  .nav .btn{display:none}
+  .statement-sub,.stats{grid-template-columns:1fr}
+  .stats{gap:6px}
+  .foot-top{grid-template-columns:1fr}
+  .badge{max-width:calc(100% - 32px)}
+  th,td{padding:16px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="ATP Accountants home"><img src="assets/atp-logo.png" alt="ATP Accountants, business advisors and auditors" width="361" height="98"></a>
+    <ul class="nav-links">
+      <li><a href="#problem">About you</a></li>
+      <li><a href="#roadmap">How we help</a></li>
+      <li><a href="#award">Get Off The Tools</a></li>
+      <li><a href="#amrat">About Amrat</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a class="nav-phone" href="tel:01494727650">01494 727 650</a>
+      <a class="btn btn-primary" href="https://tidycal.com/amrat/business-possibilities-review-40-minute-meeting" target="_blank" rel="noopener">Free review <span class="arr">→</span></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav class="drawer" id="drawer" aria-label="Mobile">
+  <a href="#problem">About you</a>
+  <a href="#roadmap">How we help</a>
+  <a href="#award">Get Off The Tools</a>
+  <a href="#amrat">About Amrat</a>
+  <a href="#contact">Contact</a>
+  <div class="drawer-foot"><span>01494 727 650</span><span>amrat@atp-accountants.co.uk</span><span>Amersham, Buckinghamshire</span></div>
+</nav>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="label h-fade">Accountants &amp; business advisors · Amersham</span>
+          <h1 aria-label="Fall back in love with your business.">
+            <span class="ln"><span>Fall back</span></span>
+            <span class="ln"><span>in love with</span></span>
+            <span class="ln"><span>your <em>business.</em></span></span>
+          </h1>
+          <p class="hero-lede h-fade">You started it for freedom and a better income. We help you build the business that actually delivers both, with a plan, milestones and someone in your corner every step.</p>
+          <div class="hero-actions h-fade">
+            <a class="btn btn-primary" href="https://tidycal.com/amrat/business-possibilities-review-40-minute-meeting" target="_blank" rel="noopener">Book a free 40-min review <span class="arr">→</span></a>
+            <a class="btn btn-ghost" href="tel:01494727650">Call 01494 727 650</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <div class="hero-img" id="heroImg"><img src="assets/owner.jpg" alt="A small business owner working behind the counter of her café" data-speed="-12"></div>
+          <div class="badge" id="badge">
+            <div class="star" aria-hidden="true">★</div>
+            <div><small>National accountancy award</small><b>Business Advisory Service of the Year</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-sym h-fade">
+        <span class="q">Sound familiar?</span>
+        <span>Frustrated as growth slows</span>
+        <span>Dreading Monday mornings</span>
+        <span>Every day feels the same</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track" id="mq">
+      <div class="mq-item">Same stuff, different day <i>●</i> Working flat out, going nowhere <i>●</i> Wheels spinning <i>●</i> Time to get off the tools <i>●</i></div>
+      <div class="mq-item">Same stuff, different day <i>●</i> Working flat out, going nowhere <i>●</i> Wheels spinning <i>●</i> Time to get off the tools <i>●</i></div>
+    </div>
+  </div>
+
+  <!-- STATEMENT -->
+  <section class="statement" id="problem">
+    <div class="wrap">
+      <span class="label">Are you spinning your wheels?</span>
+      <p class="fill" id="fill">Most owners hit a ceiling. Your foot is on the accelerator but the business stands still. The difference between a thriving business and a stalled one is <span class="hl">attitude, not capability.</span></p>
+      <div class="statement-sub">
+        <div class="rv"><b>You took the leap</b><p>You walked away from the security of employment and backed yourself against the safer, established options.</p></div>
+        <div class="rv"><b>Then it took everything</b><p>Long hours, the emotional mortgage, and responsibility for every single decision.</p></div>
+        <div class="rv"><b>The return never came</b><p>Stretched thin in the day-to-day, you can't step back far enough to grow it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORIZONTAL ROADMAP -->
+  <section class="road" id="roadmap">
+    <div class="road-bg"><img src="assets/road.jpg" alt="" id="roadImg"></div>
+    <div class="road-track" id="track">
+      <div class="panel panel-intro">
+        <span class="label">Break free to your potential</span>
+        <h2>From working <span>in</span> it to working <em style="font-style:normal">on</em> it.</h2>
+        <p>Your passion and expertise got the business started. The next stage means shifting from doing the work to running the business, carefully timed so new clients, a trained team and your pay all line up.</p>
+      </div>
+      <div class="panel step">
+        <div class="num">Step 01</div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 20c4-2 5-7 9-8s6-5 9-9"/><circle cx="3" cy="20" r="1.5"/><circle cx="21" cy="3" r="1.5"/></svg></div>
+        <h3>Build the roadmap</h3>
+        <p>We map the route from where you are today to the income and lifestyle you want, in numbers you can actually use.</p>
+      </div>
+      <div class="panel step">
+        <div class="num">Step 02</div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg></div>
+        <h3>Plot the milestones</h3>
+        <p>Clear checkpoints along the way, with a plan for the activity that hits each one and a way to improve it as you go.</p>
+      </div>
+      <div class="panel step">
+        <div class="num">Step 03</div>
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></div>
+        <h3>Stay accountable</h3>
+        <p>Regular reviews of your progress keep you on track, so the plan becomes results rather than a document in a drawer.</p>
+      </div>
+      <div class="panel panel-end">
+        <p>Simple, but not easy. It helps to have someone who has done it many times before.</p>
+        <div><a class="btn btn-light" href="#award">See the programme <span class="arr">→</span></a></div>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+  </section>
+
+  <!-- AWARD -->
+  <section class="award" id="award">
+    <div class="wrap award-grid">
+      <div class="award-img" id="awardImg">
+        <img src="assets/team.jpg" alt="A business owner and her team planning together in a meeting room" data-speed="-8" style="height:112%">
+        <svg class="seal" id="seal" viewBox="0 0 128 128" aria-hidden="true">
+          <circle cx="64" cy="64" r="63" fill="#f0b43c"/>
+          <defs><path id="c" d="M64,64 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+          <text><textPath href="#c">Award winning · Get Off The Tools · </textPath></text>
+          <text x="64" y="74" text-anchor="middle" style="font-family:'Bricolage Grotesque',sans-serif;font-size:30px;letter-spacing:0;font-weight:800">★</text>
+        </svg>
+      </div>
+      <div>
+        <span class="label">Get Off The Tools programme</span>
+        <h2>We've won<span class="dot">.</span></h2>
+        <blockquote>Our Get Off The Tools programme has won a national accountancy award for Business Advisory Service of the Year.<cite>Amrat, founder</cite></blockquote>
+        <div class="award-meta"><span><b>Category</b> · Business Advisory Service of the Year</span><span><b>Scope</b> · National</span></div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://atp-accountants.co.uk/get-off-the-tools" target="_blank" rel="noopener">Explore the programme <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="https://atp-accountants.co.uk/services" target="_blank" rel="noopener">All services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEDGER -->
+  <section class="ledger">
+    <div class="wrap">
+      <div class="ledger-head">
+        <h2 class="rv">An accountant who's in your corner.</h2>
+        <p class="rv">Meeting your accountant once a year to review a jumble of out-of-date numbers doesn't move you forward. Here's the difference.</p>
+      </div>
+      <div class="table-wrap rv">
+        <table>
+          <thead><tr><th scope="col">Line item</th><th scope="col">Typical year-end accountant</th><th scope="col" class="us">ATP Accountants</th></tr></thead>
+          <tbody>
+            <tr><td>Contact</td><td class="them">Once a year, at filing time</td><td class="us">Regular reviews that keep you on track</td></tr>
+            <tr><td>The numbers</td><td class="them">Historic and out of date by the time you see them</td><td class="us">Current figures tied to your goals</td></tr>
+            <tr><td>Focus</td><td class="them">Compliance and deadlines</td><td class="us">You, and what you want from the business</td></tr>
+            <tr><td>Direction</td><td class="them">No plan beyond the next return</td><td class="us">A roadmap with milestones to hit</td></tr>
+            <tr><td>Accountability</td><td class="them">You're on your own</td><td class="us">Someone holding you to the plan</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="founder" id="amrat">
+    <div class="wrap founder-grid">
+      <div class="portrait" id="portrait">
+        <img src="assets/desk.jpg" alt="" data-speed="-10">
+        <div class="mono"><b>Amrat</b><small>Founder · ACCA registered auditor</small></div>
+      </div>
+      <div>
+        <span class="label">Meet Amrat</span>
+        <h2>Big-brand finance. Small-business heart.</h2>
+        <p class="big">Amrat ran the finance function for Versace in the UK before setting up in practice. Now he brings that discipline to owner-run businesses in Amersham and beyond.</p>
+        <div class="stats">
+          <div class="stat"><b><span class="count" data-to="30">30</span>+</b><span>years helping owners make lasting progress</span></div>
+          <div class="stat"><b><span class="count" data-to="40">40</span> min</b><span>free possibilities review, no sales pitch</span></div>
+          <div class="stat"><b>1</b><span>national award for business advisory</span></div>
+        </div>
+        <a class="btn btn-ghost" href="https://atp-accountants.co.uk/about-us" target="_blank" rel="noopener">More about Amrat <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFER -->
+  <section class="offer" id="contact">
+    <div class="wrap">
+      <div class="offer-card" id="offer">
+        <div>
+          <span class="label">Take the first step today</span>
+          <h2>Are you ready for progress?</h2>
+          <ul>
+            <li>A free 40-minute business possibilities review, with no sales pitch</li>
+            <li>Amrat underwrites the cost as an investment in your future</li>
+            <li>Find the low-effort, high-impact opportunities waiting in your business</li>
+          </ul>
+          <a class="btn btn-light" href="https://tidycal.com/amrat/business-possibilities-review-40-minute-meeting" target="_blank" rel="noopener">Make my appointment <span class="arr">→</span></a>
+        </div>
+        <div class="contact-box">
+          <div class="row"><small>Call</small><div class="val"><a href="tel:01494727650" id="ph">01494 727 650</a><button class="copy" data-copy="01494 727 650" type="button">Copy</button></div></div>
+          <div class="row"><small>Email</small><div class="val"><a href="mailto:amrat@atp-accountants.co.uk?subject=Enquiry%20from%20your%20website">amrat@atp-accountants.co.uk</a><button class="copy" data-copy="amrat@atp-accountants.co.uk" type="button">Copy</button></div></div>
+          <div class="row"><small>Or</small><a href="https://atp-accountants.co.uk/request-a-call-back" target="_blank" rel="noopener">Request a call back →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="logo" href="#top" style="display:inline-block"><img src="assets/atp-logo.png" alt="ATP Accountants" width="361" height="98"></a>
+        <p>Registered as auditors in the United Kingdom by the Association of Chartered Certified Accountants. Member of AVN, The Accountants Network.</p>
+      </div>
+      <div><h4>Explore</h4><ul><li><a href="#problem">About you</a></li><li><a href="#amrat">About Amrat</a></li><li><a href="https://atp-accountants.co.uk/services" target="_blank" rel="noopener">Services</a></li><li><a href="https://atp-accountants.co.uk/testimonials" target="_blank" rel="noopener">Testimonials</a></li></ul></div>
+      <div><h4>Programme</h4><ul><li><a href="#award">Get Off The Tools</a></li><li><a href="https://tidycal.com/amrat/business-possibilities-review-40-minute-meeting" target="_blank" rel="noopener">Free review</a></li><li><a href="https://atp-accountants.co.uk/request-a-call-back" target="_blank" rel="noopener">Call back</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>01494 727 650</li><li>amrat@atp-accountants.co.uk</li><li>Amersham, Buckinghamshire</li></ul></div>
+    </div>
+    <div class="foot-word" aria-hidden="true">Get off the tools.</div>
+    <div class="foot-bot"><span>© 2026 ATP Accountants · Registered in England · Company No. 13076646</span><span><a href="https://atp-accountants.co.uk/privacy-policy" target="_blank" rel="noopener">Privacy</a> · <a href="https://atp-accountants.co.uk/services-1" target="_blank" rel="noopener">Terms</a></span></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  // Mobile drawer
+  var burger=document.getElementById('burger'),drawer=document.getElementById('drawer');
+  function setDrawer(o){drawer.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Close menu':'Open menu');document.body.style.overflow=o?'hidden':''}
+  burger.addEventListener('click',function(){setDrawer(!drawer.classList.contains('open'))});
+  drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setDrawer(false)})});
+
+  // Copy buttons
+  document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+    var t=b.getAttribute('data-copy');
+    function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1600)}
+    try{navigator.clipboard.writeText(t).then(done,function(){sel(b)})}catch(e){sel(b)}
+    function sel(btn){var r=document.createRange();r.selectNodeContents(btn.previousElementSibling);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  })});
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){
+    var id=a.getAttribute('href');if(id.length<2)return;var el=document.querySelector(id);if(!el)return;e.preventDefault();
+    window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'});
+  })});
+
+  // Nav state
+  var nav=document.getElementById('nav'),lastY=0;
+  window.addEventListener('scroll',function(){var y=window.scrollY;nav.classList.toggle('scrolled',y>20);nav.classList.toggle('hide',y>lastY&&y>400&&!drawer.classList.contains('open'));lastY=y},{passive:true});
+
+  if(!window.gsap||!window.ScrollTrigger)return;
+  gsap.registerPlugin(ScrollTrigger);
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce)return;
+
+  // Hero load sequence
+  var tl=gsap.timeline({defaults:{ease:'expo.out'}});
+  tl.from('.hero h1 .ln>span',{yPercent:110,duration:1.3,stagger:.1})
+    .from('.h-fade',{y:24,opacity:0,duration:1,stagger:.08},'-=1')
+    .from('#heroImg',{clipPath:'inset(100% 0 0 0 round 22px)',duration:1.4,ease:'expo.inOut'},0)
+    .from('#heroImg img',{scale:1.3,duration:1.8},0)
+    .from('#badge',{y:40,opacity:0,duration:1},'-=.7');
+
+  // Parallax images
+  gsap.utils.toArray('[data-speed]').forEach(function(img){
+    gsap.to(img,{yPercent:parseFloat(img.dataset.speed),ease:'none',scrollTrigger:{trigger:img.parentElement,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+
+  // Marquee with scroll-direction velocity
+  var mq=gsap.to('#mq',{xPercent:-50,repeat:-1,duration:26,ease:'none'});
+  ScrollTrigger.create({onUpdate:function(s){var v=s.getVelocity()/300;gsap.to(mq,{timeScale:(s.direction>0?1:-1)*Math.max(1,Math.min(Math.abs(v),5)),duration:.3,overwrite:true});gsap.to(mq,{timeScale:s.direction>0?1:-1,duration:1.2,delay:.3})}});
+
+  // Word fill statement
+  var fill=document.getElementById('fill');
+  (function split(node){
+    Array.from(node.childNodes).forEach(function(n){
+      if(n.nodeType===3){var frag=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p))}else{var s=document.createElement('span');s.className='w';s.textContent=p;frag.appendChild(s)}});node.replaceChild(frag,n)}
+      else if(n.nodeType===1){split(n)}
+    });
+  })(fill);
+  gsap.fromTo('#fill .w',{opacity:.14},{opacity:1,stagger:.05,ease:'none',scrollTrigger:{trigger:fill,start:'top 80%',end:'bottom 40%',scrub:.6}});
+
+  // Generic reveals
+  gsap.utils.toArray('.rv').forEach(function(el){
+    gsap.from(el,{y:40,opacity:0,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+  });
+
+  // Horizontal pinned roadmap (desktop)
+  var mm=gsap.matchMedia();
+  mm.add('(min-width: 901px)',function(){
+    var track=document.getElementById('track');
+    var dist=function(){return track.scrollWidth-window.innerWidth};
+    var h=gsap.to(track,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:'#roadmap',pin:true,scrub:1,end:function(){return '+='+dist()},invalidateOnRefresh:true,anticipatePin:1}});
+    gsap.to('#roadImg',{xPercent:-12,ease:'none',scrollTrigger:{trigger:'#roadmap',start:'top top',end:function(){return '+='+dist()},scrub:true}});
+    gsap.to('#prog',{scaleX:1,ease:'none',scrollTrigger:{trigger:'#roadmap',start:'top top',end:function(){return '+='+dist()},scrub:true}});
+    gsap.utils.toArray('.step').forEach(function(st){
+      gsap.from(st.children,{y:60,opacity:0,stagger:.08,ease:'expo.out',duration:1,scrollTrigger:{trigger:st,containerAnimation:h,start:'left 75%',toggleActions:'play none none reverse'}});
+    });
+  });
+  mm.add('(max-width: 900px)',function(){
+    gsap.utils.toArray('.step').forEach(function(st){gsap.from(st.children,{y:40,opacity:0,stagger:.08,duration:1,ease:'expo.out',scrollTrigger:{trigger:st,start:'top 85%',once:true}})});
+  });
+
+  // Award
+  gsap.from('#awardImg',{clipPath:'inset(12% 12% 12% 12% round 22px)',ease:'none',scrollTrigger:{trigger:'#awardImg',start:'top 90%',end:'center center',scrub:true}});
+  gsap.to('#seal',{rotation:360,ease:'none',scrollTrigger:{trigger:'#award',start:'top bottom',end:'bottom top',scrub:true}});
+  gsap.from('.award h2, .award blockquote, .award-meta, .award .hero-actions',{y:40,opacity:0,stagger:.1,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:'#award',start:'top 70%',once:true}});
+
+  // Ledger rows
+  gsap.from('tbody tr',{x:-30,opacity:0,stagger:.08,duration:.9,ease:'expo.out',scrollTrigger:{trigger:'table',start:'top 80%',once:true}});
+
+  // Founder
+  gsap.from('#portrait',{clipPath:'inset(0 0 100% 0 round 22px)',duration:1.4,ease:'expo.inOut',scrollTrigger:{trigger:'#portrait',start:'top 80%',once:true}});
+  gsap.utils.toArray('.count').forEach(function(c){
+    var o={v:0};gsap.to(o,{v:+c.dataset.to,duration:2,ease:'power3.out',onUpdate:function(){c.textContent=Math.round(o.v)},scrollTrigger:{trigger:c,start:'top 90%',once:true}});
+  });
+
+  // Offer card scale-up
+  gsap.from('#offer',{scale:.92,borderRadius:'64px',ease:'none',scrollTrigger:{trigger:'#offer',start:'top bottom',end:'top 45%',scrub:true}});
+  gsap.from('.foot-word',{xPercent:-8,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
+
+  window.addEventListener('load',function(){ScrollTrigger.refresh()});
+})();
+</script>
+
+</body>
+</html>
